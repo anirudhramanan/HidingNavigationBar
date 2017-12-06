@@ -233,14 +233,19 @@ open class HidingNavigationBarManager: NSObject, UIScrollViewDelegate, UIGesture
 			return 0
 		}
 		
-//        let statusBarSize = UIApplication.shared.statusBarFrame.size
-//        return min(statusBarSize.width, statusBarSize.height)
+        let statusBarSize = UIApplication.shared.statusBarFrame.size
+        let statusBarHeight = min(statusBarSize.width, statusBarSize.height)
 
         
+        // The following is applicable for all devices before iPhoneX. On iPhoneX, the statusBarHeight remains unchanged.
         // statusBar's height is 40.0 during hotspot/call/voice recording, etc
         // However the navigation bar's origin should still be 20.0 as iOS handles the rest
         // Hence returning 20.0 instead of statusBarHeight
-        return 20.0
+        if (statusBarHeight == 40.0) {
+            return 20.0
+        }
+        
+        return statusBarHeight;
 	}
 	
 	fileprivate func shouldHandleScrolling() -> Bool {
